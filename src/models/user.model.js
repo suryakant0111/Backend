@@ -1,9 +1,7 @@
 import { timeStamp } from "console";
 import mongoose, {Schema} from "mongoose";
-
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import { expires } from "mongoose/lib/utils";
 
 const userSchema = Schema(
     {
@@ -34,17 +32,13 @@ const userSchema = Schema(
             required:true,
         
         },
-        avatar:{
-            type:String,// URL to the avatar image using Cloudinary or any other service
-            required:true,
-        
-        },
+      
         coverImage:{
             type:String,// URL to the avatar image using Cloudinary or any other service        
         },
         watchHistory:[
             {
-                type:Schema.types.ObjectId,
+                type:Schema.Types.ObjectId,
                 ref:"Video"
             }
         ],
@@ -57,7 +51,7 @@ const userSchema = Schema(
         },
 
 }
-,{timestamp: true});
+,{timestamps   : true});
 
 
 
@@ -74,6 +68,7 @@ userSchema.pre("save", async function(next) {
 userSchema.method.isPasswordCorrect = async function(enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 }
+// generate access token and refresh token for the user
 
 userSchema.method.generateAccessToken = function() {
   return  jwt.sign(
