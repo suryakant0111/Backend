@@ -22,6 +22,9 @@ app.use(cookieParser());
 
 
 
+app.get("/api/v1/health", (req, res) => {
+  res.status(200).json({ status: "OK", message: "API is healthy" });
+});
 
 
 
@@ -29,5 +32,6 @@ app.use(cookieParser());
 import userRoutes from './routes/user.routes.js';
 app.use('/api/v1/user', userRoutes);
 // https://localhost:5000/api/v1/user/register
+
 
 export {app}

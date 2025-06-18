@@ -65,15 +65,16 @@ userSchema.pre("save", async function(next) {
 });
 
 //this compares the password entered by the user with the encrypted password stored in the database
-userSchema.method.isPasswordCorrect = async function(enteredPassword) {
+userSchema.methods.isPasswordCorrect = async function(enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 }
 // generate access token and refresh token for the user
 
-userSchema.method.generateAccessToken = function() {
+userSchema.methods.generateAccessToken = function() {
   return  jwt.sign(
     {
         _id: this._id,
+        
         username: this.username,
         email: this.email,
         fullName: this.fullName,
@@ -85,7 +86,7 @@ userSchema.method.generateAccessToken = function() {
 )
 }
 
-userSchema.method.generateRefreshToken = function() {
+userSchema.methods.generateRefreshToken = function() {
   return  jwt.sign(
     {
         _id: this._id,
