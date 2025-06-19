@@ -7,3 +7,4 @@ this.statusCode = statusCode;
         this.success = statusCode < 400; // Assuming status codes < 400 are successful
     }
 }
+export default ApiResponse;
