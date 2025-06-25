@@ -1,21 +1,40 @@
 import { Router } from "express";
-import { registerUser, loginUser, loggedOutUser, refreshAccessToken } from "../controllers/user.controller.js";
+import {
+  registerUser,
+  loginUser,
+  loggedOutUser,
+  refreshAccessToken,
+} from "../controllers/user.controller.js";
 import { upload } from "../middelwears/multer.middelwear.js";
 import { verifyJwt } from "../middelwears/auth.middelwear.js";
 
-const router =  Router();
+const router = Router();
 
 router.route("/register").post(
-    upload.fields([
-        { name: "avatar", maxCount: 1 },
-        { name: "coverImage", maxCount: 1 }
-    ]),
-    registerUser);
+  upload.fields([
+    { name: "avatar", maxCount: 1 },
+    { name: "coverImage", maxCount: 1 },
+  ]),
+  registerUser
+);
 
 router.route("/login").post(
-    loginUser
-    // loginUser
+  loginUser
+  // loginUser
 );
 router.route("/logout").post(verifyJwt, loggedOutUser);
 export default router;
 router.route("/refresh-token").post(refreshAccessToken);
+router.route("/change-password").post(verifyJwt, changeCurrentPassword);
+router.route("/current-user").get(verifyJwt, getCurrentUser);
+router.route("/update-account").patch(verifyJwt, updateAccountDetails);
+
+router
+  .route("/avatar")
+  .patch(verifyJwt, upload.single("avatar"), updateUserAvatar);
+router
+  .route("/cover-image")
+  .patch(verifyJwt, upload.single("coverImage"), updateUserCoverImage);
+
+router.route("/c/:username").get(verifyJwt, getUserChannelProfile);
+router.route("/history").get(verifyJwt, getWatchHistory);

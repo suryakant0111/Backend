@@ -404,7 +404,7 @@ const updateUserCoverImage = asyncHandler1(async (req, res) => {
     .json(new ApiResponse(200, "Cover image updated successfully", user));
 });
 
-const getUserChannelDetails = asyncHandler1(async (req, res) => {
+const getUserChannelProfile = asyncHandler1(async (req, res) => {
   const { username } = req.params;
   if (!username) {
     throw new ApiError(400, "Username is required");
@@ -535,5 +535,6 @@ export {
   updateUserAvatar,
   updateUserCoverImage,
   getUserChannelDetails,
-  getUserWatchHistory,
+  getWatchHistory,
+  getUserChannelProfile,
 };
